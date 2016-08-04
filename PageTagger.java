@@ -26,11 +26,12 @@ public class PageTagger {
 			if(wrd.contains("_")){
 				String[] split=wrd.split("_");
 				String pos=split[split.length-1];
-				sb.append(string).append(":").append(map.get(pos.replaceAll("\\s+",""))).append(", ");
+				sb.append(string).append(":").append(map.get(pos.replaceAll("\\s+",""))).append(" ");
 			}						
 		}
-		FileWriter fw=new FileWriter("D://Link5.txt");
-		fw.write(sb.toString());		
+		FileWriter fw=new FileWriter(args[1]);
+		fw.write(sb.toString());	
+		fw.close();
 	}
 	
 	/*tagText returns a String that contains the POS tagged for the input String*/
@@ -53,7 +54,7 @@ public class PageTagger {
         } catch (IOException e) {
             System.out.println("Error in extracting text");
         }
-        return (doc.body().text().replaceAll("[^\\w\\s]",""));
+        return (doc.body().text().replaceAll("[_]"," "));
     
 	}
 	
@@ -66,6 +67,15 @@ public class PageTagger {
 	
 	Map<String,String> mapping(){
 		Map<String,String> map= new HashMap<String, String>();
+		map.put("$", "dollar");
+		map.put("``", "opening quotation mark");
+		map.put("''", "closing quotation mark");
+		map.put("(", "opening parenthesis");
+		map.put(")", "closing parenthesis");
+		map.put(",", "comma");
+		map.put("--", "DASH");
+		map.put(".", "sentence terminator");
+		map.put(":", "colon or ellipsis");
 		map.put("CC", "Coordinating conjunction");
 		map.put("CD", "Cardinal number");
 		map.put("DT", "Determiner");
