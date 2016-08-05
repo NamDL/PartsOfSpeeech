@@ -18,16 +18,21 @@ public class PageTagger {
 	public static void main(String[] args) throws IOException {
 		String url=args[0];
 		PageTagger pageTagger= new PageTagger();
-		String[] arr= (pageTagger.getText(url)).split(" ");
+		String[] arr= (pageTagger.getText(url)).split("\\.");
 		Map<String,String> map=pageTagger.mapping();		
 		StringBuilder sb= new StringBuilder();
 		for (String string : arr) {
-			String wrd=(pageTagger.tagText(string));
-			if(wrd.contains("_")){
-				String[] split=wrd.split("_");
-				String pos=split[split.length-1];
-				sb.append(string).append(":").append(map.get(pos.replaceAll("\\s+",""))).append(" ");
-			}						
+			String taggedSentence=(pageTagger.tagText(string+"."));
+			String[] words=taggedSentence.split(" ");
+			for (String wrd : words) {
+				if(wrd.contains("_")){
+					System.out.println(wrd);
+					String[] split=wrd.split("_");
+					String pos=split[split.length-1];
+					System.out.println(pos);
+					sb.append(split[0]).append(":").append(map.get(pos.replaceAll("\\s+",""))).append(" ");
+				}
+			}									
 		}
 		FileWriter fw=new FileWriter(args[1]);
 		fw.write(sb.toString());	
@@ -115,4 +120,24 @@ public class PageTagger {
 		return map;
 	}
 	
+	//Class written for testing purposes
+	
+	public static String test(String html){
+		PageTagger pageTagger= new PageTagger();
+		Map<String,String> map=pageTagger.mapping();		
+		StringBuilder sb= new StringBuilder();
+		String[] arr= (pageTagger.getText(html)).split("\\.");
+		for (String string : arr) {
+			String taggedSentence=(pageTagger.tagText(string+"."));
+			String[] words=taggedSentence.split(" ");
+			for (String wrd : words) {
+				if(wrd.contains("_")){
+					String[] split=wrd.split("_");
+					String pos=split[split.length-1];
+					sb.append(split[0]).append(":").append(map.get(pos.replaceAll("\\s+",""))).append(" ");
+				}
+			}									
+		}
+		return sb.toString();
+	}
 }
