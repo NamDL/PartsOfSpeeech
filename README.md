@@ -11,4 +11,4 @@ b)The second one is the location of tthe file where the tagged data needs to be 
 
 The libraries used in this program are as follows:
 Jsoup 1.9.2
-Stanford PostTagger
+Stanford PosTagger
